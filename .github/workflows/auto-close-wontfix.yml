@@ -1,0 +1,17 @@
+name: Auto-close wontfix issues
+
+on:
+  issues:
+    types: [opened, labeled]
+
+jobs:
+  auto-close:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Close issues labeled wontfix
+        if: contains(github.event.issue.labels.*.name, 'wontfix')
+        uses: actions-cool/issues-helper@v3
+        with:
+          actions: 'close-issue'
+          token: ${{ secrets.GITHUB_TOKEN }}
+          issue-number: ${{ github.event.issue.number }}
